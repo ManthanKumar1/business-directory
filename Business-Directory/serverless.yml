@@ -1,0 +1,28 @@
+org: airlogic
+app: business-directory
+service: business-directory
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  memorySize: 2048
+  stage: dev
+  timeout: 30
+  region: ap-south-1
+  environment:
+    port: ${env:port}
+    mongodb: ${env:mongodb}
+
+plugins:
+  - serverless-dotenv-plugin
+
+custom:
+  dotenv:
+    path: .env.dev
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http: ANY /{proxy+}
+      - http: ANY /
